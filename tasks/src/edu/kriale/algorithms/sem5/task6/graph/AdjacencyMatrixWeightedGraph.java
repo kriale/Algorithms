@@ -4,7 +4,7 @@ import java.io.PrintStream;
 import java.util.Collections;
 import java.util.LinkedList;
 
-public class IncidenceMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
+public class AdjacencyMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
     private static final String VERTEX_FORMATTER_PATTERN = "%5.7s";
     private static final String EDGE_FORMATTER_PATTERN = "%5.7s";
     private static final String PRINTED_COLUMN_DELIMITER = "|";
@@ -12,22 +12,22 @@ public class IncidenceMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
     private static final String PRINTED_EMPTY = " ";
 
     private LinkedList<V> vertexesData = new LinkedList<>();
-    private LinkedList<LinkedList<E>> incidenceMatrix = new LinkedList<>();
+    private LinkedList<LinkedList<E>> adjacencyMatrix = new LinkedList<>();
 
 
-    public IncidenceMatrixWeightedGraph() {
+    public AdjacencyMatrixWeightedGraph() {
     }
 
-    public IncidenceMatrixWeightedGraph(IncidenceMatrixWeightedGraph<V, E> other) {
+    public AdjacencyMatrixWeightedGraph(AdjacencyMatrixWeightedGraph<V, E> other) {
         Collections.copy(this.vertexesData, other.vertexesData);
-        Collections.copy(this.incidenceMatrix, other.incidenceMatrix);
+        Collections.copy(this.adjacencyMatrix, other.adjacencyMatrix);
     }
 
 
     @Override
     public int addVertex(V data) {
         vertexesData.add(data);
-        incidenceMatrix.forEach(e -> e.add(null));
+        adjacencyMatrix.forEach(e -> e.add(null));
         addNewIncidenceMatrixRow();
         return vertexesData.size() - 1;
     }
@@ -37,15 +37,15 @@ public class IncidenceMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
         for (V ignored : vertexesData) {
             newVertexRow.add(null);
         }
-        incidenceMatrix.add(newVertexRow);
+        adjacencyMatrix.add(newVertexRow);
     }
 
     @Override
     public void removeVertex(int index) throws NoSuchVertexException {
         acceptVertexIndex(index);
         vertexesData.remove(index);
-        incidenceMatrix.remove(index);
-        incidenceMatrix.forEach(e -> e.remove(index));
+        adjacencyMatrix.remove(index);
+        adjacencyMatrix.forEach(e -> e.remove(index));
     }
 
     private void acceptVertexIndex(int index) throws NoSuchVertexException {
@@ -69,26 +69,26 @@ public class IncidenceMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
     public void addEdge(int oneVertexIndex, int twoVertexIndex, E data) {
         acceptVertexIndex(oneVertexIndex);
         acceptVertexIndex(twoVertexIndex);
-        incidenceMatrix.get(oneVertexIndex).set(twoVertexIndex, data);
+        adjacencyMatrix.get(oneVertexIndex).set(twoVertexIndex, data);
     }
 
     @Override
     public void removeEdge(int oneVertexIndex, int twoVertexIndex) {
         acceptVertexIndex(oneVertexIndex);
         acceptVertexIndex(twoVertexIndex);
-        incidenceMatrix.get(oneVertexIndex).set(twoVertexIndex, null);
+        adjacencyMatrix.get(oneVertexIndex).set(twoVertexIndex, null);
     }
 
     @Override
     public boolean isEdge(int oneVertexIndex, int twoVertexIndex) {
-        return incidenceMatrix.get(oneVertexIndex).get(twoVertexIndex) != null;
+        return adjacencyMatrix.get(oneVertexIndex).get(twoVertexIndex) != null;
     }
 
     @Override
     public E getEdgeData(int oneVertexIndex, int twoVertexIndex) {
         acceptVertexIndex(oneVertexIndex);
         acceptVertexIndex(twoVertexIndex);
-        return incidenceMatrix.get(oneVertexIndex).get(twoVertexIndex);
+        return adjacencyMatrix.get(oneVertexIndex).get(twoVertexIndex);
     }
 
     @Override
@@ -111,10 +111,10 @@ public class IncidenceMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
 
     private void printIncidenceMatrix() {
         printIncidenceMatrixHeader();
-        for (int i = 0; i < incidenceMatrix.size(); i++) {
+        for (int i = 0; i < adjacencyMatrix.size(); i++) {
             printRowDelimiter();
             printVertexIndex(i);
-            incidenceMatrix.get(i).forEach(e -> {
+            adjacencyMatrix.get(i).forEach(e -> {
                 printColumnDelimiter();
                 printEdge(e);
             });
@@ -123,7 +123,7 @@ public class IncidenceMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
 
     private void printIncidenceMatrixHeader() {
         System.out.printf(VERTEX_FORMATTER_PATTERN, PRINTED_EMPTY);
-        for (int i = 0; i < incidenceMatrix.size(); i++) {
+        for (int i = 0; i < adjacencyMatrix.size(); i++) {
             printColumnDelimiter();
             printVertexIndex(i);
         }
