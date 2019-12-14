@@ -1,14 +1,26 @@
 package edu.kriale.algorithms.sem5.task6.graph;
 
 import java.io.PrintStream;
-import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
 
 public class IncidenceMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
-    private ArrayList<V> vertexesData = new ArrayList<>();
-    private ArrayList<ArrayList<E>> incidenceMatrix = new ArrayList<>();
+    private static final String VERTEX_FORMATTER_PATTERN = "%5.7s";
+    private static final String EDGE_FORMATTER_PATTERN = "%5.7s";
+    private static final String PRINTED_COLUMN_DELIMITER = "|";
+    private static final String PRINTED_ROW_DELIMITER = "\n";
+    private static final String PRINTED_EMPTY = " ";
+
+    private LinkedList<V> vertexesData = new LinkedList<>();
+    private LinkedList<LinkedList<E>> incidenceMatrix = new LinkedList<>();
 
 
     public IncidenceMatrixWeightedGraph() {
+    }
+
+    public IncidenceMatrixWeightedGraph(IncidenceMatrixWeightedGraph<V, E> other) {
+        Collections.copy(this.vertexesData, other.vertexesData);
+        Collections.copy(this.incidenceMatrix, other.incidenceMatrix);
     }
 
 
@@ -21,7 +33,7 @@ public class IncidenceMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
     }
 
     private void addNewIncidenceMatrixRow() {
-        ArrayList<E> newVertexRow = new ArrayList<>();
+        LinkedList<E> newVertexRow = new LinkedList<>();
         for (V ignored : vertexesData) {
             newVertexRow.add(null);
         }
@@ -81,6 +93,59 @@ public class IncidenceMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
 
     @Override
     public void print(PrintStream ps) {
+        printVertexes();
+        printRowDelimiter();
+        printIncidenceMatrix();
+    }
 
+    private void printVertexes() {
+        for (int i = 0; i < vertexesData.size(); i++) {
+            printVertexIndex(i);
+        }
+        printRowDelimiter();
+        vertexesData.forEach(v -> {
+            printVertex(v);
+            printColumnDelimiter();
+        });
+    }
+
+    private void printIncidenceMatrix() {
+        printIncidenceMatrixHeader();
+        for (int i = 0; i < incidenceMatrix.size(); i++) {
+            printRowDelimiter();
+            printVertexIndex(i);
+            incidenceMatrix.get(i).forEach(e -> {
+                printColumnDelimiter();
+                printEdge(e);
+            });
+        }
+    }
+
+    private void printIncidenceMatrixHeader() {
+        System.out.printf(VERTEX_FORMATTER_PATTERN, PRINTED_EMPTY);
+        for (int i = 0; i < incidenceMatrix.size(); i++) {
+            printColumnDelimiter();
+            printVertexIndex(i);
+        }
+    }
+
+    private void printVertex(V vertex) {
+        System.out.printf(VERTEX_FORMATTER_PATTERN, vertex.toString());
+    }
+
+    private void printVertexIndex(int vertexIndex) {
+        System.out.printf(VERTEX_FORMATTER_PATTERN, String.valueOf(vertexIndex));
+    }
+
+    private void printEdge(E edge) {
+        System.out.printf(EDGE_FORMATTER_PATTERN, edge.toString());
+    }
+
+    private void printColumnDelimiter() {
+        System.out.println(PRINTED_COLUMN_DELIMITER);
+    }
+
+    private void printRowDelimiter() {
+        System.out.println(PRINTED_ROW_DELIMITER);
     }
 }
