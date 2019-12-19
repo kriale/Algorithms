@@ -1,5 +1,6 @@
 package edu.kriale.algorithms.sem5.task5;
 
+import edu.kriale.algorithms.sem5.task5.tree.BTree;
 import edu.kriale.algorithms.sem5.task5.tree.BinaryTree;
 
 import java.util.Arrays;
@@ -13,8 +14,9 @@ public class TreesDemo {
 
     public static void main(String[] args) {
         int userKey;
+        int[] array;
 
-        int[] array = generateRandomArray(KEYS_ARRAY_SIZE, KEY_MIN_VALUE, KEY_MAX_VALUE);
+        array = generateRandomArray(KEYS_ARRAY_SIZE, KEY_MIN_VALUE, KEY_MAX_VALUE);
         System.out.println("\nМАССИВ КЛЮЧЕЙ:");
         System.out.println(Arrays.toString(array));
 
@@ -44,6 +46,14 @@ public class TreesDemo {
                 System.out.println("В дереве отсутствует ближайший сверху ключ");
             }
         }
+
+
+        System.out.println("\nB+ ДЕРЕВО");
+        System.out.println("Начальное B+ дерево: ");
+        BTree bTree = new BTree();
+        bTree.print();
+
+
     }
 
     private static int generateInt(int minValue, int maxValue) {

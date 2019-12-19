@@ -1,6 +1,9 @@
 package edu.kriale.algorithms.sem5.task6.graph;
 
-import java.io.PrintStream;
+import edu.kriale.algorithms.sem5.task6.graph.exception.NoSuchEdgeException;
+import edu.kriale.algorithms.sem5.task6.graph.exception.NoSuchVertexException;
+
+import java.util.List;
 
 public abstract class WeightedGraph<V, E> {
     public WeightedGraph() {
@@ -23,10 +26,18 @@ public abstract class WeightedGraph<V, E> {
 
     public abstract E getEdgeData(int oneVertexIndex, int twoVertexIndex) throws NoSuchEdgeException;
 
-    public abstract void print(PrintStream ps);
+    public abstract boolean isEmpty();
 
+    public abstract String print();
 
-    public class Vertex {
-        V data;
+    public abstract int getVertexNumber();
+
+    public abstract List<Integer> getAdjacentVertexListFor(int vertexNumber);
+
+    public abstract boolean isAdjacent(int vertexOneIndex, int vertexTwoIndex);
+
+    @Override
+    public String toString() {
+        return print();
     }
 }
