@@ -14,7 +14,8 @@ public class AdjacencyMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
     private static final String PRINTED_COLUMN_DELIMITER = "|";
     private static final String PRINTED_ROW_DELIMITER = "\n";
     private static final String PRINTED_EMPTY = " ";
-    private static final String PRINTED_EMPTY_EDGE_VALUE = "null";
+    private static final String PRINTED_EMPTY_EDGE_VALUE = "-";
+    private static final String PRINTED_NOT_EMPTY_EDGE_VALUE = "1";
     private static final String GRAPH_IS_EMPTY_MESSAGE = "[empty]";
 
     private LinkedList<V> vertexesData = new LinkedList<>();
@@ -113,29 +114,6 @@ public class AdjacencyMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
         }
     }
 
-    @Override
-    public int getVertexNumber() {
-        return vertexesData.size();
-    }
-
-    @Override
-    public List<Integer> getAdjacentVertexListFor(int vertexNumber) {
-        List<Integer> adjacentVertexList = new LinkedList<>();
-        for (int i = 0; i < adjacencyMatrix.size(); i++) {
-            if (isAdjacent(vertexNumber, i)) {
-                adjacentVertexList.add(i);
-            }
-        }
-        return adjacentVertexList;
-    }
-
-    @Override
-    public boolean isAdjacent(int vertexOneIndex, int vertexTwoIndex) {
-        return vertexOneIndex != vertexTwoIndex
-                && (adjacencyMatrix.get(vertexOneIndex).get(vertexTwoIndex) != null
-                || adjacencyMatrix.get(vertexTwoIndex).get(vertexOneIndex) != null);
-    }
-
     private String printNotEmptyGraph() {
         return printVertexes() + printRowDelimiter() + printIncidenceMatrix();
     }
@@ -197,5 +175,60 @@ public class AdjacencyMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
 
     private String printRowDelimiter() {
         return PRINTED_ROW_DELIMITER;
+    }
+
+    @Override
+    public String printWithoutWeights() {
+        if (isEmpty()) {
+            return GRAPH_IS_EMPTY_MESSAGE;
+        } else {
+            return printNotEmptyGraphWithoutWeights();
+        }
+    }
+
+    private String printNotEmptyGraphWithoutWeights() {
+        return printIncidenceMatrixWithoutWeights();
+    }
+
+    private String printIncidenceMatrixWithoutWeights() {
+        StringBuilder builder = new StringBuilder();
+        builder.append(printIncidenceMatrixHeader());
+        for (int i = 0; i < adjacencyMatrix.size(); i++) {
+            builder.append(printRowDelimiter()).append(printVertexIndex(i));
+            adjacencyMatrix.get(i).forEach(e -> builder.append(printColumnDelimiter())
+                    .append(printEdgeWithoutWeights(e)));
+        }
+        return builder.toString();
+    }
+
+    private String printEdgeWithoutWeights(E edge) {
+        if (edge != null) {
+            return new Formatter().format(EDGE_FORMATTER_PATTERN, PRINTED_NOT_EMPTY_EDGE_VALUE).toString();
+        } else {
+            return new Formatter().format(EDGE_FORMATTER_PATTERN, PRINTED_EMPTY_EDGE_VALUE).toString();
+        }
+    }
+
+    @Override
+    public int getVertexNumber() {
+        return vertexesData.size();
+    }
+
+    @Override
+    public List<Integer> getAdjacentVertexListFor(int vertexNumber) {
+        List<Integer> adjacentVertexList = new LinkedList<>();
+        for (int i = 0; i < vertexesData.size(); i++) {
+            if (isAdjacent(vertexNumber, i)) {
+                adjacentVertexList.add(i);
+            }
+        }
+        return adjacentVertexList;
+    }
+
+    @Override
+    public boolean isAdjacent(int vertexOneIndex, int vertexTwoIndex) {
+        return vertexOneIndex != vertexTwoIndex
+                && (adjacencyMatrix.get(vertexOneIndex).get(vertexTwoIndex) != null
+                || adjacencyMatrix.get(vertexTwoIndex).get(vertexOneIndex) != null);
     }
 }

@@ -30,6 +30,8 @@ public abstract class WeightedGraph<V, E> {
 
     public abstract String print();
 
+    public abstract String printWithoutWeights();
+
     public abstract int getVertexNumber();
 
     public abstract List<Integer> getAdjacentVertexListFor(int vertexNumber);

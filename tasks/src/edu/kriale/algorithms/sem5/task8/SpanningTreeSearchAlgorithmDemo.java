@@ -1,11 +1,11 @@
-package edu.kriale.algorithms.sem5.task7;
+package edu.kriale.algorithms.sem5.task8;
 
 import edu.kriale.algorithms.sem5.task6.graph.WeightedGraph;
 import edu.kriale.algorithms.sem5.task6.graph.WeightedGraphGenerator;
 
-public class DepthFirstSearchAlgorithmDemo {
+public class SpanningTreeSearchAlgorithmDemo {
     private static final int MAX_VERTEX_NUMBER = 6;
-    private static final int MAX_EDGE_NUMBER = 20;
+    private static final int MAX_EDGE_NUMBER = 10;
 
     public static void main(String[] args) {
         WeightedGraph<Integer, Integer> graph = WeightedGraphGenerator
@@ -15,7 +15,7 @@ public class DepthFirstSearchAlgorithmDemo {
         System.out.println();
 
         int startVertex = 0;
-        System.out.println("Поиск в глубину, начиная с вершины " + startVertex + ": ");
-        (new DepthFirstSearchAlgorithm<>(graph)).execute(startVertex, System.out::println);
+        System.out.println("Остовное дерево, начиная с вершины " + startVertex + ": ");
+        System.out.println((new SpanningTreeSearchAlgorithm<>(graph)).printFrom(startVertex));
     }
 }
