@@ -13,6 +13,7 @@ public class SpanningTreeSearchAlgorithm<V, E> {
     private static final boolean IS_UNMARKED = false;
     private static final int TAB_SPACES_NUMBER = 4;
     private static final int MIN_SPACES_NUMBER = 1;
+    private static final String PRINTED_TREES_DELIMITER = "\n-----------\n";
 
     private WeightedGraph<V, E> graph;
     private LinkedList<Integer> stack = new LinkedList<>();
@@ -31,10 +32,19 @@ public class SpanningTreeSearchAlgorithm<V, E> {
         }
     }
 
-
-    public String printFrom(int vertexIndex) {
+    public String printAll() {
         StringBuilder builder = new StringBuilder();
-        stack.clear();
+        for (int i = 0; i < marks.size(); i++) {
+            if (marks.get(i).equals(IS_UNMARKED)) {
+                builder.append(printAnyFrom(i)).append(PRINTED_TREES_DELIMITER);
+            }
+        }
+        return builder.toString();
+    }
+
+
+    public String printAnyFrom(int vertexIndex) {
+        StringBuilder builder = new StringBuilder();
         stack.push(vertexIndex);
         builder.append(printVertex(vertexIndex, 0));
         marks.set(vertexIndex, IS_MARKED);

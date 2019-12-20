@@ -14,8 +14,7 @@ public class SpanningTreeSearchAlgorithmDemo {
         System.out.println(graph.printWithoutWeights());
         System.out.println();
 
-        int startVertex = 0;
-        System.out.println("Остовное дерево, начиная с вершины " + startVertex + ": ");
-        System.out.println((new SpanningTreeSearchAlgorithm<>(graph)).printFrom(startVertex));
+        System.out.println("Остовные деревья: ");
+        System.out.println((new SpanningTreeSearchAlgorithm<>(graph)).printAll());
     }
 }
