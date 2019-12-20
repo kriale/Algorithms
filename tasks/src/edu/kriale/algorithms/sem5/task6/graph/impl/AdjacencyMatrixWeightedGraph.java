@@ -217,7 +217,7 @@ public class AdjacencyMatrixWeightedGraph<V, E> extends WeightedGraph<V, E> {
     @Override
     public List<Integer> getAdjacentVertexListFor(int vertexNumber) {
         List<Integer> adjacentVertexList = new LinkedList<>();
-        for (int i = 0; i < vertexesData.size(); i++) {
+        for (int i = 0; i < adjacencyMatrix.size(); i++) {
             if (isAdjacent(vertexNumber, i)) {
                 adjacentVertexList.add(i);
             }

@@ -1,5 +1,6 @@
 package edu.kriale.algorithms.sem5.task6;
 
+import edu.kriale.algorithms.sem5.task6.graph.impl.AdjacencyListWeightedGraph;
 import edu.kriale.algorithms.sem5.task6.graph.impl.AdjacencyMatrixWeightedGraph;
 import edu.kriale.algorithms.sem5.task6.graph.WeightedGraph;
 
@@ -11,7 +12,7 @@ public class GraphImplementationsDemo {
     private static Random random = new Random();
 
     public static void main(String[] args) {
-        WeightedGraph<Integer, Integer> graph1 = new AdjacencyMatrixWeightedGraph<>();
+        WeightedGraph<Integer, Integer> graph1 = new AdjacencyListWeightedGraph<>();
         System.out.println(graph1);
         System.out.println();
 
